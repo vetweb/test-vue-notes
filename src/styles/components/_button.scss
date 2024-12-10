@@ -1,0 +1,45 @@
+@use "sass:color";
+@use "../base/_variables.scss" as *;
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+
+  background-color: $button-bg;
+  color: $button-text;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+// Модификаторы
+.button--add {
+  background-color: $button-add-bg;
+  color: $button-add-text;
+
+  &:hover {
+    background-color: color.scale($button-add-bg, $lightness: -10%)
+  }
+}
+
+.button--delete {
+  background-color: $button-delete-bg;
+  color: $button-delete-text;
+
+  &:hover {
+    background-color: color.scale($button-delete-bg, $lightness: -10%);
+  }
+}

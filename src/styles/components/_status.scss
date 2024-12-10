@@ -1,0 +1,12 @@
+@use "../base/_variables.scss" as *;
+
+.status {
+  flex:  0 0 auto;
+  padding: $gap-small;
+  border-radius: .4rem;
+  background: rgba(164, 51, 51, 0.3);
+
+  &--completed {
+    background: #d4edda;
+  }
+}

@@ -1,0 +1,31 @@
+$primary-color: #4CAF50; // Зеленый (например для кнопки "Сохранить")
+$danger-color: #f44336; // Красный (например для кнопки "Удалить")
+$secondary-color: #888; // Цвет для кнопки "Отмена"
+$background-color: #fff; // Белый фон
+$border-color: #ddd; // Цвет для границы инпутов
+$overlay-bg: rgba(0, 0, 0, 0.5); // Фон для overlay
+
+$font-family: 'Arial', sans-serif;
+$font-size: 14px;
+$border-radius: 8px;
+$padding: 16px;
+$modal-width: 700px;
+$box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+
+// Цвета
+$button-bg: #e0e0e0; // Базовый цвет кнопки
+$button-text: #333;  // Цвет текста для базовой кнопки
+
+$button-add-bg: #4caf50;  // Фон кнопки добавления
+$button-add-text: #fff;   // Текст кнопки добавления
+
+$button-delete-bg: #f44336; // Фон кнопки удаления
+$button-delete-text: #fff;  // Текст кнопки удаления
+
+//Отступы
+$gap-small: 8px;
+$gap: 16px;
+$gap-medium: 24px;
+$gap-large: 32x;
+$gap-x-large: 48x;

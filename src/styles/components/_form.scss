@@ -1,0 +1,14 @@
+@use "../base/_variables.scss" as *;
+
+.form {
+  margin: $gap 0;
+
+  &__label {
+    display: block;
+    margin-bottom: $gap-small;
+    font-size: 1.2rem;
+  }
+  &__field {
+    margin-bottom: $gap;
+  }
+}

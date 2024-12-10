@@ -1,0 +1,14 @@
+@use "_variables.scss" as *;
+
+.grid {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  &--center {
+    align-items: center;
+  }
+  &--sm-gap {
+    gap: $gap-small;
+  }
+}

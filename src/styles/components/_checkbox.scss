@@ -1,0 +1,48 @@
+@use "../base/_variables.scss" as *;
+
+.checkbox-custom {
+  display: flex;
+  align-items: center;
+
+  // Скрываем стандартный чекбокс
+  input[type="checkbox"] {
+    display: none;
+  }
+
+  // Стиль кастомного чекбокса
+  &__label {
+    width: 24px;
+    height: 24px;
+    border: 2px solid $button-bg;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    // Включаем активное состояние чекбокса
+    &.checked {
+      background-color: $button-add-bg;
+      border-color: $button-add-bg;
+    }
+
+    // Стиль галочки внутри чекбокса
+    &::after {
+      content: "";
+      position: absolute;
+      width: 6px;
+      height: 12px;
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    // Когда чекбокс отмечен, показываем галочку
+    &.checked::after {
+      opacity: 1;
+    }
+  }
+}
