@@ -1,12 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-
-interface Note {
-  id: number;
-  title: string;
-  body: string;
-  completed: boolean;
-}
+import type { Note } from '../types/note';
 
 export const useNotesStore = defineStore('notes', () => {
   const notes = ref<Note[]>([]);
@@ -22,15 +16,15 @@ export const useNotesStore = defineStore('notes', () => {
       const data = await response.json();
 
       // Добавляем поле completed (отметка выполнения) вручную, так как API его не возвращает
-      const fetchedNotes = data.map((note: any) => ({
+      const fetchedNotes: Note[] = data.map((note: { id: number; title: string; body: string }) => ({
         ...note,
         completed: false,
       }));
 
       // Фильтруем заметки, чтобы избежать дублирования
-      const uniqueFetchedNotes = fetchedNotes.filter(fetchedNote =>
-        !notes.value.some(existingNote => existingNote.id === fetchedNote.id)
-      );
+      const uniqueFetchedNotes = fetchedNotes.filter((fetchedNote: Note) =>
+        !notes.value.some((existingNote: Note) => existingNote.id === fetchedNote.id)
+      )
 
       // Добавляем только уникальные заметки
       notes.value.push(...uniqueFetchedNotes);
@@ -45,19 +39,13 @@ export const useNotesStore = defineStore('notes', () => {
 
 
   // Метод добавления новой заметки
-  const addNote = (newNote: Note) => {
-    // Генерация уникального id для новой заметки
-    const maxId = notes.value.reduce((max, note) => Math.max(max, note.id), 0);
-    newNote.id = maxId + 1;
-
-    // Добавляем новую заметку в хранилище
-    notes.value.push(newNote);
-    console.log('Добавленная заметка:', newNote);
-    console.log('Текущий список заметок:', notes.value);
+  const addNote = (newNote: Omit<Note, 'id'>) => {
+    const maxId = notes.value.reduce((max: number, note: Note) => Math.max(max, note.id), 0);
+    notes.value.push({ ...newNote, id: maxId + 1, completed: false });
   };
 
   const toggleCompletion = (id: number) => {
-    const index = notes.value.findIndex((n) => n.id === id);
+    const index = notes.value.findIndex((n: Note) => n.id === id);
     if (index !== -1) {
       notes.value[index] = {
         ...notes.value[index],
@@ -67,7 +55,7 @@ export const useNotesStore = defineStore('notes', () => {
   };
 
   const deleteNote = (id: number) => {
-    notes.value = notes.value.filter((n) => n.id !== id);
+    notes.value = notes.value.filter((n: Note) => n.id !== id);
   };
 
   return {

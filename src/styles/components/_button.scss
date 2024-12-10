@@ -31,7 +31,7 @@
   color: $button-add-text;
 
   &:hover {
-    background-color: color.scale($button-add-bg, $lightness: -10%)
+    background-color: color.scale($button-add-bg, $lightness: -10%);
   }
 }
 

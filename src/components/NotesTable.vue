@@ -5,16 +5,16 @@
 
     <!-- Заголовок -->
     <div class="notes-header">
-      <div>#</div>
-      <div>Название</div>
+      <div class="notes-header__item">#</div>
+      <div class="notes-header__item">Название</div>
       <div
-        class="filter-toggle"
+        class="filter-toggle notes-header__item"
         :class="{ active: showCompletedOnly }"
         @click="toggleFilter"
       >
         Выполнено
       </div>
-      <div>Действия</div>
+      <div class="notes-header__item">Действия</div>
     </div>
 
     <!-- Список заметок -->
@@ -82,6 +82,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
 import { useNotesStore } from '@/stores/notes';
+import type { Note } from '../types/note';
 import { useRoute, useRouter } from 'vue-router';
 import Modal from '@/components/Modal.vue';
 
@@ -107,19 +108,19 @@ const goToAddNote = () => {
 const showCompletedOnly = ref(false);
 const filteredNotes = computed(() => {
   return showCompletedOnly.value
-    ? store.notes.filter((note) => note.completed)
+    ? store.notes.filter((note: Note) => note.completed)
     : store.notes;
 });
 
 // Управление модальными окнами
 const isEditModalOpen = ref(false);
 const isDeleteModalOpen = ref(false);
-const selectedNote = ref(null);
+const selectedNote = ref<Note | null>(null);
 // Управление модальным окном редактирования
 const editedNote = ref({ id: 0, title: '', body: '', completed: false });
 
 // Открытие модалки редактирования
-const openEditModal = (note: any) => {
+const openEditModal = (note: Note) => {
   editedNote.value = { ...note }; // Создаем копию заметки для редактирования
   isEditModalOpen.value = true;
   blockScroll(true); // Блокируем прокрутку страницы
@@ -127,11 +128,12 @@ const openEditModal = (note: any) => {
 
 // Сохранение изменений заметки
 const saveEdit = () => {
-  store.notes = store.notes.map((note) =>
+  store.notes = store.notes.map((note: Note) =>  // Указан тип для параметра
     note.id === editedNote.value.id ? { ...editedNote.value } : note
   );
   cancelEdit();
 };
+
 
 // Отмена редактирования
 const cancelEdit = () => {
@@ -141,8 +143,8 @@ const cancelEdit = () => {
 };
 
 // Открытие модалки удаления
-const openDeleteModal = (note: any) => {
-  selectedNote.value = note;
+const openDeleteModal = (note: Note) => {
+  selectedNote.value = note || null; // Гарантируем, что selectedNote всегда корректно обновлено.
   isDeleteModalOpen.value = true;
 };
 
@@ -154,7 +156,13 @@ const closeDeleteModal = () => {
 
 // Подтверждение удаления заметки
 const deleteNote = () => {
-  store.notes = store.notes.filter((note) => note.id !== selectedNote.value.id);
+  if (!selectedNote.value) {
+    console.error('Нет выбранной заметки для удаления.');
+    return;
+  }
+
+  // Убираем проверку на null, так как она уже была выполнена выше
+  store.notes = store.notes.filter((note: Note) => note.id !== selectedNote.value!.id);
   closeDeleteModal();
 };
 
@@ -205,7 +213,9 @@ watch(showCompletedOnly, (newVal) => {
   font-weight: bold;
   background-color: #f8f9fa;
 }
-
+.notes-header__item {
+  font-weight: 700;
+}
 .note-row {
   background-color: #fff;
   transition: background-color 0.3s ease;
@@ -227,8 +237,7 @@ watch(showCompletedOnly, (newVal) => {
 }
 
 .filter-toggle.active {
-  text-decoration: underline;
-  color: #007bff;
+  color: #4caf50;
 }
 
 /* Дополнительные стили */
