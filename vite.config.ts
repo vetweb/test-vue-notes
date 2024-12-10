@@ -10,7 +10,7 @@ export default defineConfig({
     vue(),
     vueDevTools(),
   ],
-  base: 'test-vue-notes',
+  base: '/test-vue-notes/',
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
